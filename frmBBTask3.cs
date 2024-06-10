@@ -13,7 +13,9 @@ namespace GraphicsProgrammingTask3_.Net_Framework_
 {
     public partial class frmBBTask3 : Form
     {
-        Mover mover; //declared outside for global access
+        Mover mover; //sigle mover //declared outside for global access
+        List<Mover> movers = new List<Mover>(); // multiple movers
+
 
         public frmBBTask3()
         {
@@ -29,7 +31,14 @@ namespace GraphicsProgrammingTask3_.Net_Framework_
             timer1.Enabled = true;
             timer1.Tick += Timer1_Tick;
             this.Paint += Form1_Paint;
-            mover = new Mover(this.Width, this.Height);
+
+            //this is a very clever way to do it, list dynamically grows with demand for movers
+            for (int i = 0; i < 5; i++) // change i number for more/less movers
+            {
+                mover = new Mover(this.Width, this.Height);
+                movers.Add(mover);
+
+            }
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
@@ -39,8 +48,14 @@ namespace GraphicsProgrammingTask3_.Net_Framework_
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            mover.Update();
-            mover.Display(e.Graphics);
+            //mover.Update();
+            //mover.Display(e.Graphics);
+            foreach (var item in movers)
+            {
+                item.Update();
+                item.Display(e.Graphics);
+            }
+
         }
     }
 }
