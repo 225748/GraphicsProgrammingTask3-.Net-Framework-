@@ -8,19 +8,29 @@ namespace GraphicsProgrammingTask3_.Net_Framework_
     public class Mover
     {
         static Random rnd = new Random();
+        static Random startRandLocation = new Random();
         Vector2 location;
         Vector2 velocity;
+        int formWidth, formHeight;
 
         public Mover(int width, int height)
         {
-            location = new Vector2(width/2,height/2); //locates it in the middle of the screen
+            formWidth = width;
+            formHeight = height;
+            location = new Vector2(startRandLocation.Next(width),startRandLocation.Next(height)); //locates it in the middle of the screen
             velocity = new Vector2(3, 2);  //ratio of horizontal to verticle movement
         }
 
         public void Update()
         {
-            velocity.X = rnd.Next(-5, 5);
-            velocity.Y = rnd.Next(-5, 5);
+            if (location.X < 0 || location.X > formWidth - 140)
+            {
+                velocity.X = velocity.X * -1;
+            }
+            if (location.Y < 0 || location.Y > formHeight - 140)
+            {
+                velocity.Y = velocity.Y * -1;
+            }
             location = Vector2.Add(location, velocity);
 
 
